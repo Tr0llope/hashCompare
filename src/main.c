@@ -42,6 +42,8 @@ int main(int argc, char *argv[]){
     
     char buffer[MAX_BUFFER_SIZE];
     unsigned char hash[MD5_DIGEST_LENGTH*2 + 1];
+    int i = 0;
+    printf("INFO Writing table...\n");
     while (fgets(buffer, MAX_BUFFER_SIZE, stdin) != NULL) {
     	size_t length = strlen(buffer);
         if (length > 0 && buffer[length - 1] == '\n') {
@@ -49,7 +51,14 @@ int main(int argc, char *argv[]){
         }
     	generation_hash_MD5(hash, buffer);//Génération du hash
     	hash_to_file(output_file, hash, buffer);
+    	i++;
+    	
+    	if (i % 1000000 == 0){
+            printf("INFO %d hashes written...\n", i);
+        }
     }
+    
+    printf("INFO %d hashes written.\n", i);
     
     fclose(output_file);
 
