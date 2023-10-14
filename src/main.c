@@ -112,7 +112,10 @@ int main(int argc, char *argv[]){
 	int count = 0;
 
 	if(strcmp(argv[1],"-G")==0){//Mode Génération stdin(dico) | ./main.c mode rainbow ou ./main.c mode rainbow dico
-
+		
+		FILE *input_stream = fopen(argv[3], "r");;
+		if(input_stream==NULL) input_stream = stdin;
+		
 		//on ouvre le fichier de sortie
 		FILE *output_file = fopen(argv[2], "w");
 		if (output_file == NULL) {
@@ -121,7 +124,7 @@ int main(int argc, char *argv[]){
 		}
 		unsigned char hash[MD5_DIGEST_LENGTH*2 + 1];
 		printf("INFO Writing table...\n");
-		while (fgets(buffer, MAX_BUFFER_SIZE, stdin) != NULL) { // Lit ligne par ligne l'entrée standard
+		while (fgets(buffer, MAX_BUFFER_SIZE, input_stream) != NULL) { // Lit ligne par ligne l'entrée standard
 			size_t length = strlen(buffer);
 			if (length > 0 && buffer[length - 1] == '\n') { //remplace \n par \0 dans le buffer
 				buffer[length - 1] = '\0';
@@ -140,37 +143,15 @@ int main(int argc, char *argv[]){
 		fclose(output_file);
 	}
 	else if(strcmp(argv[1], "-L")==0){ //Mode de comparaison stdin(hashs) | ./main.c mode rainbow ou ./main.c mode rainbow hashs
-		//test 2: fonction de comparaison entre stdin et struct t3c
+		FILE * input_hashs = fopen(argv[3], "r");
+		if(input_hashs == NULL) input_hashs = stdin;
+		
 		//on ouvre la rainbow table
 		FILE *rainbow = fopen(argv[2], "r");
 		if (rainbow == NULL) {
 			perror("Error opening output file");
 			exit(EXIT_FAILURE);
 		}
-
-	/*char buffer2[MAX_BUFFER_SIZE];
-		while (fgets(buffer2, MAX_BUFFER_SIZE, stdin) != NULL) {
-			size_t length = strlen(buffer2);
-			if (length > 0 && buffer2[length - 1] == '\n') { //remplace \n par \0 dans le buffer
-				buffer2[length - 1] = '\0';
-			}
-			printf("%s\n", buffer2);
-		}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		t3c *liste = create();
 
@@ -207,7 +188,7 @@ int main(int argc, char *argv[]){
 
 		//Recherche de correspondance entre les input hashs et les rainbow hashs
 		char buffer2[MAX_BUFFER_SIZE];
-		while (fgets(buffer2, MAX_BUFFER_SIZE, stdin) != NULL) {
+		while (fgets(buffer2, MAX_BUFFER_SIZE, input_hashs) != NULL) {
 			size_t length = strlen(buffer2);
 			if (length > 0 && buffer2[length - 1] == '\n') { //remplace \n par \0 dans le buffer
 				buffer2[length - 1] = '\0';
