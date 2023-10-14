@@ -7,80 +7,12 @@
 //cat rockyou.txt | ./exec -G rainbow_table.txt
 //cat hashes_input.txt | ./exec -L rainbow_table.txt
 
+#include "hash.h"
+#include "t3c_struct.h"
+
 #define MAX_BUFFER_SIZE 1024
-#define MD5_DIGEST_LENGTH 16
 
-/*******************************/
-//Hashage
-void generation_hash_MD5(unsigned char hash[MD5_DIGEST_LENGTH], char *string){
-	MD5_CTX ctx;
-	MD5_Init(&ctx);
-	MD5_Update(&ctx, string, strlen(string));
-	MD5_Final(hash, &ctx);
-}
 
-void printHash(unsigned char hash[MD5_DIGEST_LENGTH]){
-	printf("Hash: ");
-	for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
-		printf("%02x", hash[i]);
-	}
-	printf("\n");
-}
-
-// Ecrit dans le fichier de sortie: mdp_clair:mdp_hash
-void hash_to_file(FILE *file, unsigned char mdp_hash[MD5_DIGEST_LENGTH], char * mdp_clair){
-	fprintf(file, "%s:", mdp_clair);
-	for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
-		fprintf(file, "%02x", mdp_hash[i]);
-	}
-	fprintf(file, "\n");
-}
-
-/********************************/
-//Structure
-typedef struct T3c {
-	char *mdp_clair;
-	unsigned char hash[MD5_DIGEST_LENGTH];
-	struct T3c *next;
-} t3c;
-
-t3c* create() {
-	return NULL;
-}
-
-void addt3c(t3c **tete, char *mdp_clair, unsigned char *hash) {
-	t3c *new_elem = malloc(sizeof(t3c));
-	new_elem->mdp_clair = strdup(mdp_clair);
-	memcpy(new_elem->hash, hash, MD5_DIGEST_LENGTH);
-	new_elem->next = *tete;
-	*tete = new_elem;
-}
-
-// Fonction pour afficher toute la liste chaînée
-void print_t3c(t3c *tete) {
-	t3c *tmp = tete;
-	while (tmp != NULL) {
-		printf("Mot de passe : %s\n", tmp->mdp_clair);
-		printf("Hash : ");
-		for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
-			printf("%02x", tmp->hash[i]);
-		}
-		printf("\n");
-
-		tmp = tmp->next;
-	}
-}
-
-// Fonction pour libérer la mémoire allouée par la liste chaînée
-void freeList(t3c *tete) {
-	t3c *tmp = tete;
-	while (tmp != NULL) {
-		t3c *next = tmp->next;
-		free(tmp->mdp_clair);
-		free(tmp);
-		tmp = next;
-	}
-}
 
 /********************************/
 //Comparaison
