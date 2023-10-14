@@ -22,17 +22,16 @@ void printHash(unsigned char hash[MD5_DIGEST_LENGTH]){
     printf("\n");
 }
 
-void hash_to_file(FILE *file, unsigned char hash[MD5_DIGEST_LENGTH]){
+// Ecrit dans le fichier de sortie: mdp_clair:mdp_hash
+void hash_to_file(FILE *file, unsigned char mdp_hash[MD5_DIGEST_LENGTH], char * mdp_clair){
+    fprintf(file, "%s:", mdp_clair);
     for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
-        fprintf(file, "%02x", hash[i]);
+        fprintf(file, "%02x", mdp_hash[i]);
     }
     fprintf(file, "\n");
 }
 
 int main(int argc, char *argv[]){
-	//test 1: lire depuis l'entrée standard stdin et écrire dans un fichier
-	//test 2: _générer un hash md5 valide depuis les entrées de stdin
-	//	  _écrire les hashs dans output.txt
 	
 	//on ouvre le fichier de sortie
 	FILE *output_file = fopen(argv[1], "w");
@@ -49,7 +48,7 @@ int main(int argc, char *argv[]){
             buffer[length - 1] = '\0';
         }
     	generation_hash_MD5(hash, buffer);//Génération du hash
-    	hash_to_file(output_file, hash);
+    	hash_to_file(output_file, hash, buffer);
     }
     
     fclose(output_file);
