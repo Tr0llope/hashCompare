@@ -98,7 +98,7 @@ int main(int argc, char *argv[]){
 				// Convertir la chaîne hexadécimale en tableau d'octets
 				unsigned char hash[MD5_DIGEST_LENGTH];
 				for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
-					sscanf(hash_str + 2 * i, "%02x", &hash[i]);
+					sscanf(hash_str + 2 * i, "%02hhx", &hash[i]);
 				}
 
 				// Ajouter à la liste
