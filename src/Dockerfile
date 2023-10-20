@@ -4,9 +4,7 @@ COPY . /app
 
 WORKDIR /app
 
-RUN make
-
-CMD ["cat rockyou.txt | ./hash_compare -G rainbow_table.txt","cat hashes_input.txt | ./hash_compare -L rainbow_table.txt"]
+RUN apt-get update && apt-get -y install libssl-dev && apt-get -y install valgrind && make
 
 
 
