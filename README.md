@@ -14,7 +14,6 @@ Voici le contenu du projet:
     ├── main.c
     ├── Makefile
     ├── rainbow_table.txt
-    ├── rockyou.txt
     ├── t3c_struct.c
     └── t3c_struct.h
 
@@ -35,11 +34,11 @@ Il propose deux modes pouvant être lancés successivement de cette manière:
 #### Mode Génération: 
 En utilisant l'entrée standard:
 ```
-cat rockyou.txt | ./hashCompare -G rainbow_table.txt
+cat dico.txt | ./hashCompare -G rainbow_table.txt
 ```
 Avec seulement des arguments:
 ```
-./hashCompare -G rainbow_table.txt rockyou.txt
+./hashCompare -G rainbow_table.txt dico.txt
 ```
 où rockyou.txt est un dictionnaire de mots de passe stockés en clair et rainbow_table.txt le fichier contenant les condensats générés.
 
