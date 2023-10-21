@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <openssl/md5.h> //nécessite libssl-dev
+#include <openssl/md5.h>
 
 #include "hash.h"
 
@@ -24,10 +24,10 @@ void printHash(unsigned char hash[MD5_DIGEST_LENGTH]){
 
 // Ecrit dans le fichier de sortie: mdp_clair:mdp_hash
 void hash_to_file(FILE *file, unsigned char mdp_hash[MD5_DIGEST_LENGTH], char * mdp_clair){
-	fprintf(file, "%s:", mdp_clair);
 	for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
 		fprintf(file, "%02x", mdp_hash[i]);
 	}
+	fprintf(file, ":%s", mdp_clair);
 	fprintf(file, "\n");
 }
 
